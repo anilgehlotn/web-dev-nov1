@@ -76,7 +76,7 @@ Make sure you have the following installed:
 |------|------|
 | 🧑‍💻 **Aswin Kumar** |  [Aswin-Kumar7](https://github.com/Aswin-Kumar7) |
 | 👨‍💻 **Anil Gehlot** |  [anilgehlotn](https://github.com/anilgehlotn) |
-| 👨‍🎨 **Kaveyan** |  *Coming Soon* |
+| 👨‍🎨 **Kaveyan** |  [Kaveyans].(https://github.com/Kaveyans). |
 
 ---
 
