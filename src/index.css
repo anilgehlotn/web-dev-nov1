@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 36 20% 97%;
+    --foreground: 150 30% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 30% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 15%;
+
+    --primary: 150 45% 28%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 150 50% 40%;
+
+    --secondary: 28 40% 55%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 36 15% 90%;
+    --muted-foreground: 150 15% 40%;
+
+    --accent: 195 75% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 36 20% 85%;
+    --input: 36 20% 85%;
+    --ring: 150 45% 28%;
+
+    --radius: 0.75rem;
+
+    /* Custom design tokens */
+    --gradient-nature: linear-gradient(135deg, hsl(150 45% 28%), hsl(150 50% 40%));
+    --gradient-earth: linear-gradient(135deg, hsl(28 40% 55%), hsl(35 50% 65%));
+    --gradient-sky: linear-gradient(180deg, hsl(195 75% 45%), hsl(200 80% 55%));
+    --gradient-hero: linear-gradient(135deg, hsl(150 45% 28% / 0.95), hsl(150 50% 40% / 0.85));
+    
+    --shadow-soft: 0 2px 15px -3px hsl(150 45% 28% / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(150 45% 28% / 0.15);
+    --shadow-glow: 0 0 30px hsl(150 50% 40% / 0.3);
+    
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 150 25% 8%;
+    --foreground: 36 20% 95%;
+
+    --card: 150 20% 12%;
+    --card-foreground: 36 20% 95%;
+
+    --popover: 150 20% 12%;
+    --popover-foreground: 36 20% 95%;
+
+    --primary: 150 50% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 150 55% 55%;
+
+    --secondary: 28 45% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 150 15% 18%;
+    --muted-foreground: 36 15% 60%;
+
+    --accent: 195 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 50.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 15% 20%;
+    --input: 150 15% 20%;
+    --ring: 150 50% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
