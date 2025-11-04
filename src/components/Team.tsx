@@ -829,8 +829,8 @@
 
 // export default Team;
 
-import { motion, Variants, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { motion, Variants } from "framer-motion";
+import { useMemo, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import partner1 from "@/assets/partner1.svg";
@@ -839,8 +839,9 @@ import partner3 from "@/assets/partner3.svg";
 import partner4 from "@/assets/partner4.svg";
 import partner5 from "@/assets/partner5.svg";
 import partner6 from "@/assets/partner6.svg";
-import partner7 from "@/assets/partner7.svg";
+import partner7 from "@/assets/partner7.png";
 
+// Move static data outside component (Next.js pattern for static data)
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -850,31 +851,143 @@ const fadeUp: Variants = {
   }),
 };
 
-const Team = () => {
-  const partners = [
-    { name: "River Venture Studio", role: "Innovation Hub - Singapore", logo: partner1 },
-    { name: "AIC-PECF", role: "Atal Incubation Centre", logo: partner2 },
-    { name: "T-Hub", role: "Ecosystem Partner", logo: partner3 },
-    { name: "EICF", role: "European Indian Cooperation Forum", logo: partner4 },
-    { name: "Pondy Friends", role: "Community Partner", logo: partner5 },
-    { name: "Annapradokshana Charitable Trust", role: "Partner", logo: partner6 },
-    { name: "DS Groups", role: "Partner", logo: partner6 },
-  ];
+// Static data moved outside component (optimization pattern from Next.js)
+const PARTNERS_DATA = [
+  { name: "River Venture Studio", role: "Innovation Hub - Singapore", logo: partner1 },
+  { name: "AIC-PECF", role: "Atal Incubation Centre", logo: partner2 },
+  { name: "T-Hub", role: "Ecosystem Partner", logo: partner3 },
+  { name: "EICF", role: "European Indian Cooperation Forum", logo: partner4 },
+  { name: "Pondy Friends", role: "Community Partner", logo: partner5 },
+  { name: "Annapradokshana Charitable Trust", role: "Partner", logo: partner6 },
+  { name: "DS Groups", role: "Partner", logo: partner7 },
+] as const;
 
-  const marqueeControls = useAnimation();
-  useEffect(() => {
-    marqueeControls.start({
-      x: ["-66.6667%", "-33.3333%"],
-      transition: { duration: 10, ease: "linear", repeat: Infinity, repeatType: "loop" },
-    });
-  }, []);
+const TEAM_CARDS_DATA = [
+  {
+    title: "Dr. Viveka Kalidasan, PhD",
+    role: "Mentor / Advisor",
+    details: [
+      "Founder-CEO | River Venture Studio Global",
+      "Thought Leader in Industry 5.0/4.0",
+      "Deeptech Venture Builder (AI/ML)",
+      "MIT 35 Innovators Under 35",
+      "SG Top 100 Women in Tech",
+      "NUS Outstanding Young Alumni",
+    ],
+  },
+  {
+    title: "River Venture Studio",
+    role: "Accelerator",
+    details: [
+      "Supported by Enterprise SG",
+      "World's first DeepTech Industry 5.0 Accelerator",
+      "Based in Singapore",
+      "Empowering global startups inclusively",
+      "Global Innovation Hub",
+    ],
+  },
+  {
+    title: "AIC - PECF",
+    role: "Incubator",
+    details: [
+      "Atal Incubation Centre - Puducherry",
+      "Engineering College Foundation",
+      "Govt. of India Initiative",
+      "Innovation & Startup Hub",
+      "Ecosystem Enabler in Puducherry",
+    ],
+  },
+] as const;
+
+const STATS_DATA = [
+  { value: "5+", label: "Strategic Partners" },
+  { value: "3", label: "Countries" },
+  { value: "10+", label: "Joint Projects" }
+] as const;
+
+const TeamCard = memo(({ card, index }: { card: typeof TEAM_CARDS_DATA[number], index: number }) => (
+  <motion.div
+    key={card.title}
+    custom={index * 0.1}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    variants={fadeUp}
+  >
+    <Card className="group flex flex-col justify-between h-full bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl">
+      <CardHeader>
+        <CardTitle className="text-2xl font-semibold">{card.title}</CardTitle>
+        <CardDescription className="text-sm uppercase tracking-wide text-emerald-600 font-medium">
+          {card.role}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col justify-between h-full">
+        <ul className="text-gray-600 text-sm space-y-2 mb-6">
+          {card.details.map((d, idx) => (
+            <li key={idx}>• {d}</li>
+          ))}
+        </ul>
+        <Button className="mt-auto w-full bg-emerald-700 hover:bg-emerald-800 text-white rounded-full">
+          Learn More →
+        </Button>
+      </CardContent>
+    </Card>
+  </motion.div>
+));
+TeamCard.displayName = 'TeamCard';
+
+const PartnerCard = memo(({ partner, index }: { partner: typeof PARTNERS_DATA[number], index: number }) => (
+  <motion.div
+    key={`${partner.name}-${index}`}
+    className="flex-shrink-0 w-56 h-64 bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+    whileHover={{ scale: 1.02 }}
+    style={{ willChange: 'transform' }}
+  >
+    <div className="h-36 bg-gradient-to-br from-emerald-50 to-white flex items-center justify-center p-4">
+      <div className="w-28 h-28 rounded-full bg-white shadow-inner border border-gray-100 overflow-hidden flex items-center justify-center p-0">
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          className="min-w-full min-h-full w-full h-full object-cover object-center"
+          loading="lazy"
+          decoding="async"
+          style={{ transform: 'scale(1.1)' }}
+        />
+      </div>
+    </div>
+    <div className="p-4 text-center">
+      <h3 className="text-base font-semibold text-gray-800 mb-1">{partner.name}</h3>
+      <p className="text-xs text-emerald-600 font-medium">{partner.role}</p>
+    </div>
+  </motion.div>
+));
+PartnerCard.displayName = 'PartnerCard';
+
+const StatCard = memo(({ stat, index }: { stat: typeof STATS_DATA[number], index: number }) => (
+  <motion.div
+    key={stat.label}
+    custom={index * 0.1}
+    variants={fadeUp}
+    className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100"
+    whileHover={{ y: -5 }}
+    style={{ willChange: 'transform' }}
+  >
+    <h3 className="text-5xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-400 bg-clip-text text-transparent mb-2">
+      {stat.value}
+    </h3>
+    <p className="text-gray-600 font-medium">{stat.label}</p>
+  </motion.div>
+));
+StatCard.displayName = 'StatCard';
+
+const Team = () => {
+  const duplicatedPartners = useMemo(() => [...PARTNERS_DATA, ...PARTNERS_DATA], []);
 
   return (
     <section
       id="team"
       className="relative py-24 bg-gradient-to-b from-white via-slate-50 to-slate-100 text-gray-900 overflow-hidden"
     >
-      {/* Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-green-300/30 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-emerald-400/30 rounded-full blur-3xl animate-pulse"></div>
@@ -898,75 +1011,12 @@ const Team = () => {
           </p>
         </motion.div>
 
-        {/* Key Members (Equal Height + Button Aligned) */}
         <div className="grid md:grid-cols-3 gap-10 mb-28">
-          {[
-            {
-              title: "Dr. Viveka Kalidasan, PhD",
-              role: "Mentor / Advisor",
-              details: [
-                "Founder-CEO | River Venture Studio Global",
-                "Thought Leader in Industry 5.0/4.0",
-                "Deeptech Venture Builder (AI/ML)",
-                "MIT 35 Innovators Under 35",
-                "SG Top 100 Women in Tech",
-                "NUS Outstanding Young Alumni",
-              ],
-            },
-            {
-              title: "River Venture Studio",
-              role: "Accelerator",
-              details: [
-                "Supported by Enterprise SG",
-                "World's first DeepTech Industry 5.0 Accelerator",
-                "Based in Singapore",
-                "Empowering global startups inclusively",
-                "Global Innovation Hub",
-              ],
-            },
-            {
-              title: "AIC - PECF",
-              role: "Incubator",
-              details: [
-                "Atal Incubation Centre - Puducherry",
-                "Engineering College Foundation",
-                "Govt. of India Initiative",
-                "Innovation & Startup Hub",
-                "Ecosystem Enabler in Puducherry",
-              ],
-            },
-          ].map((card, i) => (
-            <motion.div
-              key={i}
-              custom={i * 0.1}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-            >
-              <Card className="group flex flex-col justify-between h-full bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-semibold">{card.title}</CardTitle>
-                  <CardDescription className="text-sm uppercase tracking-wide text-emerald-600 font-medium">
-                    {card.role}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col justify-between h-full">
-                  <ul className="text-gray-600 text-sm space-y-2 mb-6">
-                    {card.details.map((d, index) => (
-                      <li key={index}>• {d}</li>
-                    ))}
-                  </ul>
-                  <Button className="mt-auto w-full bg-emerald-700 hover:bg-emerald-800 text-white rounded-full">
-                    Learn More →
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+          {TEAM_CARDS_DATA.map((card, i) => (
+            <TeamCard key={card.title} card={card} index={i} />
           ))}
         </div>
 
-      {/* Strategic Partners Section */}
       <motion.div
         custom={0.5}
         initial="hidden"
@@ -984,13 +1034,10 @@ const Team = () => {
           </p>
         </div>
 
-        {/* Partner Logos - Enhanced Horizontal Scroll */}
         <div className="relative overflow-hidden py-8">
-          {/* Gradient Fades */}
           <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
           
-          {/* Motion wrapper for infinite smooth scroll */}
           <motion.div 
             className="flex gap-8 w-max"
             animate={{
@@ -1002,34 +1049,14 @@ const Team = () => {
               repeat: Infinity,
               repeatType: "loop"
             }}
+            style={{ willChange: 'transform' }}
           >
-            {[...partners, ...partners].map((partner, index) => (
-              <motion.div
-                key={`${partner.name}-${index}`}
-                className="flex-shrink-0 w-56 h-64 bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="h-36 bg-gradient-to-br from-emerald-50 to-white flex items-center justify-center p-4">
-                  <div className="w-28 h-28 rounded-full bg-white shadow-inner border border-gray-100 overflow-hidden flex items-center justify-center p-0">
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      className="min-w-full min-h-full w-full h-full object-cover object-center"
-                      loading="lazy"
-                      style={{ transform: 'scale(1.1)' }}
-                    />
-                  </div>
-                </div>
-                <div className="p-4 text-center">
-                  <h3 className="text-base font-semibold text-gray-800 mb-1">{partner.name}</h3>
-                  <p className="text-xs text-emerald-600 font-medium">{partner.role}</p>
-                </div>
-              </motion.div>
+            {duplicatedPartners.map((partner, index) => (
+              <PartnerCard key={`${partner.name}-${index}`} partner={partner} index={index} />
             ))}
           </motion.div>
         </div>
         
-        {/* Stats Section with Improved Design */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto my-20"
           initial="hidden"
@@ -1037,23 +1064,8 @@ const Team = () => {
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          {[
-            { value: "5+", label: "Strategic Partners" },
-            { value: "3", label: "Countries" },
-            { value: "10+", label: "Joint Projects" }
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              custom={index * 0.1}
-              variants={fadeUp}
-              className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100"
-              whileHover={{ y: -5 }}
-            >
-              <h3 className="text-5xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-400 bg-clip-text text-transparent mb-2">
-                {stat.value}
-              </h3>
-              <p className="text-gray-600 font-medium">{stat.label}</p>
-            </motion.div>
+          {STATS_DATA.map((stat, index) => (
+            <StatCard key={stat.label} stat={stat} index={index} />
           ))}
         </motion.div>
         <motion.div 
