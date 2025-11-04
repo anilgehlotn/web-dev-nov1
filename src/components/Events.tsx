@@ -737,7 +737,8 @@
 //   );
 // }
 import { motion, type Variants } from "framer-motion";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, Users, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -771,32 +772,44 @@ const upcomingEvents = [
 
 const pastEvents = [
   {
-    title: "Climate Tech Summit 2024",
-    date: "March 2024",
-    location: "Singapore",
-    type: "Conference",
+    title: "SPARC Launch Event",
+    date: "July 2025",
+    location: "Pondicherry, India",
+    type: "Launch Event",
     attendees: "500+",
     description:
-      "Presented ErthaLoka's EPA tokenization model to global climate tech investors and thought leaders.",
+      "The official launch of SPARC (An Initiative by ethalaka), focused on Incubating/Accelerating Startups for Planetary Action, Research & Creativity. The event was held at the Atal Incubation Centre - PECF and featured key Program Partners.",
   },
   {
-    title: "Conservation Finance Workshop",
-    date: "February 2024",
-    location: "Puducherry, India",
-    type: "Workshop",
+    title: "SustainABLE StartUp Circle",
+    date: "April 2025",
+    location: "Pondicherry, India",
+    type: "Startup Meetup",
     attendees: "75",
     description:
-      "Hands-on workshop with NGOs exploring blockchain-based conservation finance frameworks.",
+      "A SustainABLE StartUp Circle event held in Pondicherry focusing on community and sustainable enterprise. The event was held in partnership with The Organic Collective, dedicated to building a co-existent universe where people, planet, and purpose thrive. ",
   },
   {
-    title: "Blockchain for Nature Hackathon",
-    date: "January 2024",
-    location: "Virtual",
-    type: "Hackathon",
+    title: "SustainABLE Monthly Circle",
+    date: "June 2025",
+    location: "Pondicherry, India",
+    type: "Monthly Workshop",
     attendees: "200+",
     description:
-      "Co-organized hackathon exploring Web3 innovations for ecological data transparency and restoration.",
+      "A monthly SustainABLE Circle workshop held in Auroville, Pondicherry, featuring Laure, a Zero Waste Lifestyle Practitioner & Consultant. The event focused on practical sustainability and lifestyle changes, emphasizing a co-existent universe.",
   },
+];
+
+// Gallery for Past Events 
+const pastEventGallery = [
+  { src: "/src/assets/event_img1.JPG", alt: "Community Highlights", colSpan: "md:col-span-6", rowSpan: "md:row-span-2" },
+  { src: "/src/assets/event_img2.JPG", alt: "Roundtable meetup", colSpan: "md:col-span-3", rowSpan: "md:row-span-1" },
+  { src: "/src/assets/event_img3.JPG", alt: "Partners banner", colSpan: "md:col-span-3", rowSpan: "md:row-span-1" },
+  { src: "/src/assets/event_img4.JPG", alt: "Group photo", colSpan: "md:col-span-3", rowSpan: "md:row-span-1" },
+  { src: "/src/assets/event_img5.JPG", alt: "Workshop", colSpan: "md:col-span-3", rowSpan: "md:row-span-1" },
+  { src: "/src/assets/event_img6.JPG", alt: "Office talk", colSpan: "md:col-span-6", rowSpan: "md:row-span-1" },
+  { src: "/src/assets/event_img7.JPG", alt: "Community meetup", colSpan: "md:col-span-3", rowSpan: "md:row-span-1" },
+  { src: "/src/assets/event_img8.JPG", alt: "Workshop session", colSpan: "md:col-span-3", rowSpan: "md:row-span-1" },
 ];
 
 export default function EventsPage() {
@@ -920,6 +933,89 @@ export default function EventsPage() {
               </Card>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Community Highlights Gallery */}
+      <section className="py-10 px-6 bg-white relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold text-center mb-6 text-foreground"
+          >
+            Community Highlights
+          </motion.h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-12 auto-rows-[120px] md:auto-rows-[160px] gap-4">
+            {pastEventGallery.map((tile, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.98, y: 8 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
+                viewport={{ once: true }}
+                className={`relative col-span-1 ${tile.colSpan ?? ""} row-span-1 ${tile.rowSpan ?? ""}`}
+              >
+                <div className="w-full h-full overflow-hidden rounded-2xl shadow-md group">
+                  <motion.img
+                    src={tile.src}
+                    alt={tile.alt}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.04 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  {/* Play overlay can be re-enabled by adding `isVideo: true` in data */}
+                  <div className="absolute inset-0 ring-1 ring-black/5 rounded-2xl" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Stats below the gallery */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="mt-10 grid md:grid-cols-3 gap-6"
+          >
+            {[
+              { Icon: Globe, value: "3+", title: "Countries", desc: "Global community presence" },
+              { Icon: Calendar, value: "10+", title: "Offline Events", desc: "Real-world gatherings and workshops" },
+              { Icon: Users, value: "5", title: "Accounts on voyage", desc: "Growing community of regenerative innovators" },
+            ].map(({ Icon, value, title, desc }, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 * idx }}
+                viewport={{ once: true }}
+                className="rounded-2xl border border-green-100 bg-gradient-to-b from-white to-green-50/50 p-6 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-emerald-600/10 text-emerald-700 mb-4 mx-auto">
+                  <Icon className="w-7 h-7" />
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-foreground tracking-tight">{value}</div>
+                  <div className="mt-2 text-lg font-medium text-foreground">{title}</div>
+                  <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <div className="mt-8 flex justify-center">
+            <Button
+              className="rounded-full px-7 py-6 bg-emerald-600 hover:bg-emerald-700 text-white text-base shadow-md hover:shadow-lg transition"
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Join the Movement
+            </Button>
+          </div>
         </div>
       </section>
 
