@@ -966,58 +966,117 @@ const Team = () => {
           ))}
         </div>
 
-      {/* Partner Logos - Horizontal Auto Scroll */}
+      {/* Strategic Partners Section */}
       <motion.div
         custom={0.5}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="text-center max-w-5xl mx-auto mb-24"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
       >
-        <h3 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Our Partners</h3>
-        <p className="text-muted-foreground mb-8">
-          Collaborating with visionary organizations to build a transparent, decentralized, and regenerative ecosystem.
-        </p>
+        <div className="text-center max-w-4xl mx-auto mb-16">
+          <h2 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-gray-900 via-emerald-700 to-gray-800 bg-clip-text text-transparent mb-4 leading-tight pb-2">
+            Strategic Partners
+          </h2>
+          <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+            Collaborating with visionary organizations to build a transparent, decentralized, and regenerative ecosystem.
+          </p>
+        </div>
 
-        <div className="relative overflow-hidden">
+        {/* Partner Logos - Enhanced Horizontal Scroll */}
+        <div className="relative overflow-hidden py-8">
+          {/* Gradient Fades */}
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
+          
           {/* Motion wrapper for infinite smooth scroll */}
-          <motion.div
-            className="flex gap-12 w-max"
+          <motion.div 
+            className="flex gap-8 w-max"
             animate={{
-              x: ["-50%", "0%"], 
+              x: ["0%", "-50%"],
             }}
             transition={{
-              duration: 30,       // Adjust speed (higher = slower)
+              duration: 30,
               ease: "linear",
               repeat: Infinity,
+              repeatType: "loop"
             }}
-            style={{ willChange: "transform" }}
           >
-            {/* Duplicate the partner list twice for seamless looping */}
-            {[...partners, ...partners].map((p, i) => (
-              <div
-                key={`${p.name}-${i}`}
-                className="flex flex-col items-center justify-center bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg min-w-[240px]"
+            {[...partners, ...partners].map((partner, index) => (
+              <motion.div
+                key={`${partner.name}-${index}`}
+                className="flex-shrink-0 w-56 h-64 bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                whileHover={{ scale: 1.02 }}
               >
-                <div className="w-[4.9rem] h-[4.9rem] md:w-[5.6rem] md:h-[5.6rem] rounded-full overflow-hidden mb-4 bg-white/80 border border-white/40 flex items-center justify-center">
-                  <img
-                    src={p.logo}
-                    alt={`${p.name} logo`}
-                    className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
-                    loading="lazy"
-                  />
+                <div className="h-36 bg-gradient-to-br from-emerald-50 to-white flex items-center justify-center p-4">
+                  <div className="w-28 h-28 rounded-full bg-white shadow-inner border border-gray-100 overflow-hidden flex items-center justify-center p-0">
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="min-w-full min-h-full w-full h-full object-cover object-center"
+                      loading="lazy"
+                      style={{ transform: 'scale(1.1)' }}
+                    />
+                  </div>
                 </div>
-                <h4 className="font-semibold text-lg mb-1">{p.name}</h4>
-                <p className="text-gray-500 text-sm">{p.role}</p>
-              </div>
+                <div className="p-4 text-center">
+                  <h3 className="text-base font-semibold text-gray-800 mb-1">{partner.name}</h3>
+                  <p className="text-xs text-emerald-600 font-medium">{partner.role}</p>
+                </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
-
-        <Button className="mt-16 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full px-10 py-6 text-lg">
-          Become a Partner
-        </Button>
+        
+        {/* Stats Section with Improved Design */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto my-20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          {[
+            { value: "5+", label: "Strategic Partners" },
+            { value: "3", label: "Countries" },
+            { value: "10+", label: "Joint Projects" }
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              custom={index * 0.1}
+              variants={fadeUp}
+              className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm hover:shadow-md transition-all border border-gray-100"
+              whileHover={{ y: -5 }}
+            >
+              <h3 className="text-5xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-400 bg-clip-text text-transparent mb-2">
+                {stat.value}
+              </h3>
+              <p className="text-gray-600 font-medium">{stat.label}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+        <motion.div 
+          className="text-center mt-24"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
+          <h3 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
+            Ready to join our network of strategic partners?
+          </h3>
+          <p className="text-gray-500 max-w-2xl mx-auto mb-8">
+            Partner with us to drive innovation, sustainability, and positive impact across industries.
+            Let's build the future together.
+          </p>
+          <Button 
+            className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-medium rounded-full px-8 py-6 text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+            size="lg"
+          >
+            Become a Partner →
+          </Button>
+        </motion.div>
       </motion.div> 
 
         {/* Connect Section */}
