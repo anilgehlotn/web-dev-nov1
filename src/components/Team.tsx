@@ -833,15 +833,15 @@ import { motion, Variants } from "framer-motion";
 import { useMemo, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import partner1 from "@/assets/partner1.svg";
+import partner1 from "@/assets/rvs.jpeg";
 import partner2 from "@/assets/partner2.svg";
 import partner3 from "@/assets/partner3.svg";
 import partner4 from "@/assets/partner4.svg";
 import partner5 from "@/assets/partner5.svg";
 import partner6 from "@/assets/partner6.svg";
 import partner7 from "@/assets/partner7.png";
+import mentorImage from "@/assets/mentor.png";
 
-// Move static data outside component (Next.js pattern for static data)
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -851,7 +851,6 @@ const fadeUp: Variants = {
   }),
 };
 
-// Static data moved outside component (optimization pattern from Next.js)
 const PARTNERS_DATA = [
   { name: "River Venture Studio", role: "Innovation Hub - Singapore", logo: partner1 },
   { name: "AIC-PECF", role: "Atal Incubation Centre", logo: partner2 },
@@ -866,6 +865,7 @@ const TEAM_CARDS_DATA = [
   {
     title: "Dr. Viveka Kalidasan, PhD",
     role: "Mentor / Advisor",
+    image: mentorImage,
     details: [
       "Founder-CEO | River Venture Studio Global",
       "Thought Leader in Industry 5.0/4.0",
@@ -878,6 +878,7 @@ const TEAM_CARDS_DATA = [
   {
     title: "River Venture Studio",
     role: "Accelerator",
+    image: partner1,
     details: [
       "Supported by Enterprise SG",
       "World's first DeepTech Industry 5.0 Accelerator",
@@ -889,6 +890,7 @@ const TEAM_CARDS_DATA = [
   {
     title: "AIC - PECF",
     role: "Incubator",
+    image: partner2,
     details: [
       "Atal Incubation Centre - Puducherry",
       "Engineering College Foundation",
@@ -914,20 +916,39 @@ const TeamCard = memo(({ card, index }: { card: typeof TEAM_CARDS_DATA[number], 
     viewport={{ once: true }}
     variants={fadeUp}
   >
-    <Card className="group flex flex-col justify-between h-full bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl">
-      <CardHeader>
-        <CardTitle className="text-2xl font-semibold">{card.title}</CardTitle>
-        <CardDescription className="text-sm uppercase tracking-wide text-emerald-600 font-medium">
-          {card.role}
-        </CardDescription>
+    <Card className="group flex flex-col items-center h-full bg-white/70 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl pt-8">
+      {/* Image Section */}
+      <div className="relative w-40 h-40 mb-6">
+        <div className="absolute inset-0 rounded-full overflow-hidden bg-gray-100">
+          <motion.img
+            src={card.image}
+            alt={card.title}
+            className="w-full h-full object-cover object-top"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4 }}
+          />
+        </div>
+        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
+          <CardDescription className="text-xs uppercase tracking-wide bg-emerald-600 text-white px-3 py-1 rounded-full font-semibold shadow-md">
+            {card.role}
+          </CardDescription>
+        </div>
+      </div>
+      
+      {/* Content Section */}
+      <CardHeader className="pb-3 text-center">
+        <CardTitle className="text-xl font-semibold text-gray-900">{card.title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col justify-between h-full">
+      <CardContent className="flex flex-col justify-between flex-grow">
         <ul className="text-gray-600 text-sm space-y-2 mb-6">
           {card.details.map((d, idx) => (
-            <li key={idx}>• {d}</li>
+            <li key={idx} className="flex items-start">
+              <span className="text-emerald-600 mr-2 font-bold">•</span>
+              <span>{d}</span>
+            </li>
           ))}
         </ul>
-        <Button className="mt-auto w-full bg-emerald-700 hover:bg-emerald-800 text-white rounded-full">
+        <Button className="mt-auto w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300">
           Learn More →
         </Button>
       </CardContent>
